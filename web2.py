@@ -1,5 +1,22 @@
 from urllib import *
 from re import *
+from csv import *
+def scrapemail(link):
+     link1=urlopen(link).read()
+     link2=findall(r'<a href="(http.*?)"',link1)
+     for title in link2:
+          print "\nProcessing :"+title
+          email=findall(r'([a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-\.]+)',urlopen(title).read())
+          print "\nemail id:"+"".join(email)
+          writefile(title,email)
+     return
+
+def writefile(title,email):
+               fileobject=open("w.csv","w")
+               data="".join(title)+","+"".join(email)
+               fileobject.write(data)
+               return
+
 def urllink(link,depth):
      #link=raw_input("input the url")
      link1=urlopen(link).read()
@@ -20,7 +37,7 @@ def urllink(link,depth):
                fileobject.write(html)
                urllink(link3,depth)
                
-     
+               
     
     
-    
+scrapemail("http://www.indschools.co.uk/direct_links_a.shtm")
